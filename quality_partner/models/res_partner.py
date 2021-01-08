@@ -13,7 +13,7 @@ class ResPartner(models.Model):
         comodel_name="quality.partner.classification",
         string="Classification",
         domain=[("level_type", "=", "description")],
-        on_delete="restrict",
+        ondelete="restrict",
     )
     quality_document_ids = fields.One2many(
         comodel_name="quality.partner.document",

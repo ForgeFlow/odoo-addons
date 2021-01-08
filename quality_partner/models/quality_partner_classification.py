@@ -33,7 +33,7 @@ class QualityPartnerClassification(models.Model):
     parent_id = fields.Many2one(
         comodel_name="quality.partner.classification",
         string="Parent",
-        on_delete="restrict",
+        ondelete="restrict",
     )
 
     document_type_ids = fields.Many2many(

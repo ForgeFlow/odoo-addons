@@ -15,7 +15,7 @@ class QualityPartnerDocument(models.Model):
         string="Document type",
         required=True,
         domain="[('id', 'in', quality_classification_id.document_type_ids)]",
-        on_delete="restrict",
+        ondelete="restrict",
     )
 
     datas = fields.Binary(string="File", attachment=True, required=True)
@@ -26,7 +26,7 @@ class QualityPartnerDocument(models.Model):
     description = fields.Text(string="Description")
 
     partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Partner", on_delete="cascade"
+        comodel_name="res.partner", string="Partner", ondelete="cascade"
     )
 
     partner_quality_classification_id = fields.Many2one(
