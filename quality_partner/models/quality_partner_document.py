@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class QualityPartnerDocument(models.Model):
     _name = "quality.partner.document"
+    _description = "Quality Partner Document"
     _order = "partner_id,date desc,document_type_id"
 
     document_type_id = fields.Many2one(
@@ -34,12 +35,12 @@ class QualityPartnerDocument(models.Model):
 
     partner_class_mandatory_document_type_ids = fields.One2many(
         comodel_name="quality.partner.document.type",
-        compute="_partner_class_mandatory_document_type_ids",
+        compute="_compute_partner_class_mandatory_document_type_ids",
         readonly=True,
     )
 
     @api.depends("partner_quality_classification_id")
-    def _partner_class_mandatory_document_type_ids(self):
+    def _compute_partner_class_mandatory_document_type_ids(self):
         for rec in self:
             rec.partner_class_mandatory_document_type_ids = (
                 rec.partner_id.quality_classification_id.mandatory_document_type_ids

@@ -12,13 +12,14 @@ MAP_LEVELS = {
 }
 MAP_LEVELS_ORD = {v[0]: (k, v[1]) for k, v in MAP_LEVELS.items()}
 LEVELS = [
-    (k, trl) for k, (ord, trl) in sorted(MAP_LEVELS.items(), key=lambda x: x[1][0])
+    (k, trl) for k, (_ord, trl) in sorted(MAP_LEVELS.items(), key=lambda x: x[1][0])
 ]
 
 
 class QualityPartnerClassification(models.Model):
     _name = "quality.partner.classification"
     _inherit = "quality.tree.mixin"
+    _description = "Quality Partner Classification"
     _rec_name = "complete_name"
     _order = "sequence"
 
