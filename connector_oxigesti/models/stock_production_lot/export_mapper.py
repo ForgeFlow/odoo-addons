@@ -1,5 +1,5 @@
-# Copyright NuoBiT Solutions, S.L. (<https://www.nuobit.com>)
-# Eric Antones <eantones@nuobit.com>
+# Copyright NuoBiT Solutions - Eric Antones <eantones@nuobit.com>
+# Copyright NuoBiT Solutions - Kilian Niubo <kniubo@nuobit.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 
 from odoo.addons.component.core import Component
@@ -31,4 +31,4 @@ class StockProductionLotExportMapper(Component):
             % (record, product_id, product_id.display_name, product_id.default_code)
         )
 
-        return {"CodigoArticulo": external_id[0]}
+        return {"CodigoArticulo": external_id}
