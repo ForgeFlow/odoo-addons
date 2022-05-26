@@ -104,6 +104,13 @@ class AccountMove(models.Model):
                 # Compute payment terms.
                 invoice._recompute_payment_terms_lines()
                 # Only synchronize one2many in onchange.
+                _logger.info(
+                    "C_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+                    invoice._origin,
+                    invoice._origin._onchange_invoice_line_ids,
+                    invoice,
+                    invoice.invoice_line_ids,
+                )
                 if invoice != invoice._origin:
                     _logger.info(
                         "A_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
