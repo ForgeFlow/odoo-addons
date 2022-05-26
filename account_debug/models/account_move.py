@@ -20,7 +20,21 @@ class AccountMove(models.Model):
 
     @api.onchange("invoice_date", "highest_name", "company_id")
     def _onchange_invoice_date(self):
+        _logger.info(
+            "A_onchange_invoice_date: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+            self._origin,
+            self._origin.invoice_line_ids,
+            self,
+            self.invoice_line_ids,
+        )
         super().with_context(invoice_date_changed=True)._onchange_invoice_date()
+        _logger.info(
+            "B_onchange_invoice_date: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+            self._origin,
+            self._origin.invoice_line_ids,
+            self,
+            self.invoice_line_ids,
+        )
 
     @api.onchange(
         "line_ids",
@@ -95,8 +109,22 @@ class AccountMove(models.Model):
                 > invoice.line_ids.tax_line_id._origin
             ):
                 invoice.line_ids.recompute_tax_line = False
+                _logger.info(
+                    "D_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+                    invoice._origin,
+                    invoice._origin.invoice_line_ids,
+                    invoice,
+                    invoice.invoice_line_ids,
+                )
                 invoice._recompute_tax_lines()
             if recompute_tax_base_amount:
+                _logger.info(
+                    "E_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+                    invoice._origin,
+                    invoice._origin.invoice_line_ids,
+                    invoice,
+                    invoice.invoice_line_ids,
+                )
                 invoice._recompute_tax_lines(recompute_tax_base_amount=True)
             if invoice.is_invoice(include_receipts=True):
                 # Compute cash rounding.
@@ -107,7 +135,7 @@ class AccountMove(models.Model):
                 _logger.info(
                     "C_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
                     invoice._origin,
-                    invoice._origin._onchange_invoice_line_ids,
+                    invoice._origin.invoice_line_ids,
                     invoice,
                     invoice.invoice_line_ids,
                 )
@@ -115,7 +143,7 @@ class AccountMove(models.Model):
                     _logger.info(
                         "A_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
                         invoice._origin,
-                        invoice._origin._onchange_invoice_line_ids,
+                        invoice._origin.invoice_line_ids,
                         invoice,
                         invoice.invoice_line_ids,
                     )
@@ -125,7 +153,7 @@ class AccountMove(models.Model):
                     _logger.info(
                         "B_recompute_dynamic_lines: origin %s with %s invoice lines, invoice %s with invoice lines %s",
                         invoice._origin,
-                        invoice._origin._onchange_invoice_line_ids,
+                        invoice._origin.invoice_line_ids,
                         invoice,
                         invoice.invoice_line_ids,
                     )

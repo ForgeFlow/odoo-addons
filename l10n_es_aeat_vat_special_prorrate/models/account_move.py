@@ -1,7 +1,10 @@
 # Copyright NuoBiT - Eric Antones <eantones@nuobit.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
+import logging
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 def prorate_context(invoice):
@@ -24,7 +27,21 @@ class AccountMove(models.Model):
 
     @api.onchange("invoice_date", "date")
     def _onchange_dates(self):
-        self._recompute_tax_lines()
+        _logger.info(
+            "A_onchange_dates: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+            self._origin,
+            self._origin.invoice_line_ids,
+            self,
+            self.invoice_line_ids,
+        )
+        self.with_context(invoice_date_changed=True)._recompute_tax_lines()
+        _logger.info(
+            "B_onchange_dates: origin %s with %s invoice lines, invoice %s with invoice lines %s",
+            self._origin,
+            self._origin.invoice_line_ids,
+            self,
+            self.invoice_line_ids,
+        )
 
 
 class AccountMoveLine(models.Model):
