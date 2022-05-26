@@ -27,21 +27,7 @@ class AccountMove(models.Model):
 
     @api.onchange("invoice_date", "date")
     def _onchange_dates(self):
-        _logger.info(
-            "A_onchange_dates: origin %s with %s invoice lines, invoice %s with invoice lines %s",
-            self._origin,
-            self._origin.invoice_line_ids,
-            self,
-            self.invoice_line_ids,
-        )
-        self.with_context(invoice_date_changed=True)._recompute_tax_lines()
-        _logger.info(
-            "B_onchange_dates: origin %s with %s invoice lines, invoice %s with invoice lines %s",
-            self._origin,
-            self._origin.invoice_line_ids,
-            self,
-            self.invoice_line_ids,
-        )
+        self._recompute_dynamic_lines()
 
 
 class AccountMoveLine(models.Model):
